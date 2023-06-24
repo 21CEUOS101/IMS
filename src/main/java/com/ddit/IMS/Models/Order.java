@@ -30,10 +30,8 @@ public class Order {
 
     private String status;
 
-    @Autowired
     List<Product> products;
 
-    @Autowired
     WareHouse wareHouse;
     
 }

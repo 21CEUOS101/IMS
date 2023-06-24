@@ -15,12 +15,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "productsInfo")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Component
 public class Product {
 
     @Id
