@@ -1,37 +1,35 @@
 package com.ddit.IMS.Models;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@Data
+@Table(name = "orderInfo")
 public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private int id;
-
+    @Column
     private String date;
 
+    @Column
     private String status;
 
+    @ManyToMany(mappedBy = "orders")
     List<Product> products;
 
+    @OneToOne
     WareHouse wareHouse;
     
 }

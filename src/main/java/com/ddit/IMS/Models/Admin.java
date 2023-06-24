@@ -1,5 +1,6 @@
 package com.ddit.IMS.Models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,8 +14,9 @@ public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private int id;
-
+    @Column
     private Name name;
 
     @OneToOne

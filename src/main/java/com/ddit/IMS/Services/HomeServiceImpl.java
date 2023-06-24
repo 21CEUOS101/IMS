@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import com.ddit.IMS.Repository.ProductRepo;
 import com.ddit.IMS.Repository.WareHouseRepo;
 
 @Service
-public class HomeServiceImpl implements HomeService{
+public class HomeServiceImpl implements HomeService {
 
     @Autowired
     private ProductRepo productRepo;
@@ -34,11 +35,10 @@ public class HomeServiceImpl implements HomeService{
     @Autowired
     private LoginInfoRepo loginInfoRepo;
 
-
     @Override
     public Product createProduct(String name, String description, String category, String brand, String color,
-            String size, String price, String quantity, Integer wareHouseId) {
-        
+            String size, String price, String quantity, List<WareHouse> wareHouses, List<Order> orders) {
+
         Product product = new Product();
         product.setName(name);
         product.setDescription(description);
@@ -48,45 +48,48 @@ public class HomeServiceImpl implements HomeService{
         product.setSize(size);
         product.setPrice(price);
         product.setQuantity(quantity);
-        product.setWareHouse(wareHouseRepo.findById(wareHouseId).get());
+        product.setWareHouses(wareHouses);
+        product.setOrders(orders);
         productRepo.save(product);
 
         return product;
     }
+
     @Override
     public void deleteProduct(Integer productId) {
-    
+
         Product product = productRepo.findById(productId).orElse(null);
 
-        if (product != null)
-        {
+        if (product != null) {
             // TODO: throw exception
         }
         productRepo.deleteById(product.getId());
     }
+
     @Override
     public Product getProduct(Integer productId) {
-        
+
         Product product = productRepo.findById(productId).orElse(null);
 
-        if (product != null)
-        {
+        if (product != null) {
             // TODO: throw exception
         }
-        return null;
+        return product;
     }
+
     @Override
     public List<Product> getProducts() {
-        
+
         return productRepo.findAll();
     }
+
     @Override
     public Product updateProduct(Product product, String name, String description, String category, String brand,
-            String color, String size, String price, String quantity, Integer wareHouseId) {
+            String color, String size, String price, String quantity, List<WareHouse> wareHouses, List<Order> orders) {
 
         Product oldproduct = productRepo.findById(product.getId()).orElse(null);
 
-        if (product != null) {
+        if (oldproduct != null) {
             // TODO: throw exception
         }
         oldproduct.setName(name);
@@ -97,21 +100,25 @@ public class HomeServiceImpl implements HomeService{
         oldproduct.setSize(size);
         oldproduct.setPrice(price);
         oldproduct.setQuantity(quantity);
-        oldproduct.setWareHouse(wareHouseRepo.findById(wareHouseId).get());
+        oldproduct.setWareHouses(wareHouses);
+        oldproduct.setOrders(orders);
         productRepo.save(oldproduct);
 
         return null;
     }
-    
+
     @Override
-    public WareHouse createWareHouse(String name, String address, String city, String state, String zipCode) {
-        
+    public WareHouse createWareHouse(String name, String address, String city, String state, String zipCode,
+            List<Product> products, Order order) {
+
         WareHouse wareHouse = new WareHouse();
         wareHouse.setName(name);
         wareHouse.setAddress(address);
         wareHouse.setCity(city);
         wareHouse.setState(state);
         wareHouse.setZip(zipCode);
+        wareHouse.setProducts(products);
+        wareHouse.setOrder(order);
         wareHouseRepo.save(wareHouse);
 
         return wareHouse;
@@ -119,11 +126,11 @@ public class HomeServiceImpl implements HomeService{
 
     @Override
     public WareHouse updateWareHouse(WareHouse wareHouse, String name, String address, String city, String state,
-            String zipCode) {
+            String zipCode, List<Product> products, Order order) {
 
         WareHouse oldwareHouse = wareHouseRepo.findById(wareHouse.getId()).orElse(null);
         if (oldwareHouse != null) {
-            //TODO: throw exception
+            // TODO: throw exception
         }
 
         oldwareHouse.setName(name);
@@ -131,15 +138,17 @@ public class HomeServiceImpl implements HomeService{
         oldwareHouse.setCity(city);
         oldwareHouse.setState(state);
         oldwareHouse.setZip(zipCode);
+        oldwareHouse.setProducts(products);
+        oldwareHouse.setOrder(order);
         wareHouseRepo.save(oldwareHouse);
         return null;
     }
-    
+
     @Override
     public void deleteWareHouse(Integer wareHouseId) {
         WareHouse wareHouse = wareHouseRepo.findById(wareHouseId).orElse(null);
         if (wareHouse != null) {
-            //TODO: throw exception
+            // TODO: throw exception
         }
         wareHouseRepo.deleteById(wareHouse.getId());
     }
@@ -172,13 +181,13 @@ public class HomeServiceImpl implements HomeService{
 
         return null;
     }
-    
+
     @Override
     public Order updateOrder(Order order, String status, List<Product> products, WareHouse wareHouse) {
 
         Order oldorder = orderRepo.findById(order.getId()).orElse(null);
         if (oldorder != null) {
-            //TODO: throw exception
+            // TODO: throw exception
         }
 
         oldorder.setStatus(status);
@@ -187,27 +196,27 @@ public class HomeServiceImpl implements HomeService{
         orderRepo.save(oldorder);
         return null;
     }
-    
+
     @Override
     public void deleteOrder(Integer orderId) {
 
         Order order = orderRepo.findById(orderId).orElse(null);
         if (order != null) {
-            //TODO: throw exception
+            // TODO: throw exception
         }
         orderRepo.deleteById(order.getId());
     }
-    
+
     @Override
     public Order getOrder(Integer orderId) {
 
         Order order = orderRepo.findById(orderId).orElse(null);
         return order;
     }
-    
+
     @Override
     public List<Order> getOrders() {
-        
+
         return orderRepo.findAll();
     }
 }

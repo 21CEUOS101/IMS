@@ -10,11 +10,11 @@ public interface HomeService {
 
     //create
 	public Product createProduct(String name, String description, String category, String brand, String color,
-			String size, String price, String quantity, Integer wareHouseId);
+			String size, String price, String quantity, List<WareHouse> wareHouses , List<Order> orders);
 	
 	//update
 	public Product updateProduct(Product product,String name, String description, String category, String brand, String color,
-			String size, String price, String quantity, Integer wareHouseId);
+			String size, String price, String quantity,List<WareHouse> wareHouses , List<Order> orders);
 	
 	//delete
 	public void deleteProduct(Integer productId);
@@ -26,10 +26,10 @@ public interface HomeService {
 	public List<Product> getProducts();
 	
 	//create
-	public WareHouse createWareHouse(String name, String address, String city, String state, String zipCode);
+	public WareHouse createWareHouse(String name, String address, String city, String state, String zipCode , List<Product> products , Order order);
 
 	//update
-	public WareHouse updateWareHouse(WareHouse wareHouse,String name, String address, String city, String state, String zipCode);
+	public WareHouse updateWareHouse(WareHouse wareHouse,String name, String address, String city, String state, String zipCode , List<Product> products , Order order);
 
 	//delete
 	public void deleteWareHouse(Integer wareHouseId);

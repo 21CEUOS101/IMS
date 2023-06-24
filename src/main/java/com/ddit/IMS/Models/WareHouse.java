@@ -2,13 +2,13 @@ package com.ddit.IMS.Models;
 
 import java.util.*;
 
-import org.springframework.stereotype.Component;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 @Entity
@@ -17,20 +17,25 @@ public class WareHouse {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
     private int id;
 
+    @Column
     private String name;
-
+    @Column
     private String address;
-
+    @Column
     private String city;
-
+    @Column
     private String state;
-
+    @Column
     private String zip;
-
-    @OneToMany(mappedBy = "wareHouse")
+    
+    @ManyToMany(mappedBy = "wareHouses")
     private List<Product> products;
+
+    @OneToOne(mappedBy = "wareHouse")
+    private Order order;
 
     public WareHouse() {
     }
